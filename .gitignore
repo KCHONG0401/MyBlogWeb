@@ -26,5 +26,8 @@ npm-debug.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Models (large files)
-public/models/*.glb
+# Dev artifacts
+.superpowers/
+.claude/
+screenshot-*.png
+docs/superpowers/

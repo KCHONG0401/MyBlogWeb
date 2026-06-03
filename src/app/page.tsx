@@ -88,21 +88,54 @@ export default function HomePage() {
       {/* ── Latest Articles ── */}
       <Section title="最新文章" subtitle="騎行筆記與生活紀錄" href="/blog" viewAllText="查看所有文章">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {blogs.map((post) => <BlogCard key={String(post.id)} {...(post as never)} />)}
+          {blogs.map((post) => (
+            <BlogCard
+              key={String(post.id)}
+              slug={String(post.slug ?? post.id)}
+              title={String(post.title ?? '')}
+              excerpt={String(post.excerpt ?? '')}
+              category={String(post.category ?? '')}
+              date={String(post.created_at ?? '').slice(0, 10)}
+              image={post.image_url as string | null}
+            />
+          ))}
         </div>
       </Section>
 
       {/* ── Featured Videos ── */}
       <Section title="精選影片" subtitle="排氣聲浪與公路之旅" href="/videos" viewAllText="查看所有影片" dark>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {videos.map((v) => <VideoCard key={String(v.id)} {...(v as never)} />)}
+          {videos.map((v) => (
+            <VideoCard
+              key={String(v.id)}
+              title={String(v.title ?? '')}
+              description={String(v.description ?? '')}
+              duration={String(v.duration ?? '')}
+              views={String(v.views ?? '')}
+              date={String(v.date ?? v.created_at ?? '').slice(0, 10)}
+              youtubeId={v.youtube_id as string | undefined}
+              thumbnail={v.image_url as string | undefined}
+            />
+          ))}
         </div>
       </Section>
 
       {/* ── Recommended Gear ── */}
       <Section title="推薦裝備" subtitle="實際使用後的心得分享" href="/gear" viewAllText="查看所有裝備">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {gear.map((item) => <GearCard key={String(item.id)} {...(item as never)} />)}
+          {gear.map((item) => (
+            <GearCard
+              key={String(item.id)}
+              id={String(item.id)}
+              name={String(item.name ?? '')}
+              brand={String(item.brand ?? '')}
+              category={String(item.category ?? '')}
+              rating={Number(item.rating ?? 0)}
+              price={item.price as string | undefined}
+              review={String(item.review ?? '')}
+              image={item.image_url as string | null}
+            />
+          ))}
         </div>
       </Section>
 

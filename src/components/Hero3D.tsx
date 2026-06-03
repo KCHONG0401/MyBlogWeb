@@ -42,9 +42,9 @@ class GLTFErrorBoundary extends Component<EBProps, EBState> {
 }
 
 /* ── GLTF Motorcycle (runs inside error boundary) ── */
-function GLTFMotorcycle() {
+function GLTFMotorcycle({ url }: { url: string }) {
   const groupRef = useRef<THREE.Group>(null)
-  const { scene } = useGLTF('/models/675NK.glb')
+  const { scene } = useGLTF(url)
 
   useFrame((_, delta) => {
     if (groupRef.current) {
@@ -58,8 +58,6 @@ function GLTFMotorcycle() {
     </group>
   )
 }
-
-useGLTF.preload('/models/675NK.glb')
 
 /* ── Fallback: stylized motorcycle from primitives ── */
 function FallbackMotorcycle() {
@@ -128,18 +126,19 @@ function FallbackMotorcycle() {
 }
 
 /* ── Smart Motorcycle: tries GLTF first, falls back to primitives ── */
-function MotorcycleScene() {
+function MotorcycleScene({ modelUrl }: { modelUrl?: string | null }) {
+  const url = modelUrl || '/models/675NK.glb'
   return (
     <GLTFErrorBoundary fallback={<FallbackMotorcycle />}>
       <Suspense fallback={<Loader />}>
-        <GLTFMotorcycle />
+        <GLTFMotorcycle url={url} />
       </Suspense>
     </GLTFErrorBoundary>
   )
 }
 
 /* ── Hero 3D Scene ── */
-export default function Hero3D() {
+export default function Hero3D({ modelUrl }: { modelUrl?: string | null }) {
   return (
     <div className="canvas-container w-full h-full">
       <Canvas
@@ -168,7 +167,7 @@ export default function Hero3D() {
         <directionalLight position={[3, 5, 2]} intensity={0.6} />
 
         <Suspense fallback={<Loader />}>
-          <MotorcycleScene />
+          <MotorcycleScene modelUrl={modelUrl} />
           <ContactShadows
             position={[0, 0.1, 0]}
             opacity={0.5}
